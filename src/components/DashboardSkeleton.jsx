@@ -1,4 +1,4 @@
-import { glass } from './ui';
+import { glass } from './UI';
 
 const Bar = ({ className = '' }) => <div className={`animate-pulse rounded-md bg-white/10 ${className}`} />;
 

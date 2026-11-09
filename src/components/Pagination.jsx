@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 import { PAGE_SIZES } from '../lib/csv';
-import { btnGhost, field } from './ui';
+import { btnGhost, field } from './UI';
 
 export default function Pagination({ page, pageCount, pageSize, onPage, onPageSize }) {
   const first = page === 0, last = page >= pageCount - 1;

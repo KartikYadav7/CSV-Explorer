@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Filter, Plus, X, Trash2 } from 'lucide-react';
 import { OPERATORS, OPS_BY_TYPE } from '../lib/csv';
-import { btnGhost, btnPrimary, field, glass } from './ui';
+import { btnGhost, btnPrimary, field, glass } from './UI';
 
 const opsFor = (types, col) => OPS_BY_TYPE[types[col] || 'text'];
 

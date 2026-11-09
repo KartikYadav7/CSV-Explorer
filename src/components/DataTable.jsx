@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import PropTypes from 'prop-types';
 import { ArrowUp, ArrowDown, ArrowUpDown, Hash, Type, SearchX } from 'lucide-react';
-import { btnGhost } from './ui';
+import { btnGhost } from './UI';
 
 const Row = memo(function Row({ row, index, columns }) {
   return (

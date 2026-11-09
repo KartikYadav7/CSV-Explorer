@@ -5,7 +5,7 @@ import FilterBuilder from './components/FilterBuilder';
 import DataTable from './components/DataTable';
 import Pagination from './components/Pagination';
 import DashboardSkeleton from './components/DashboardSkeleton';
-import { btnGhost, glass } from './components/ui.js';
+import { btnGhost, glass } from './components/UI.js';
 import { PAGE_SIZES, applyFilters, exportCsv, formatBytes, inferTypes, parseCsv, sortRows } from './lib/csv';
 import { clearAll, load, save } from './lib/storage';
 

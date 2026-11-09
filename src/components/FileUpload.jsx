@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { UploadCloud, AlertTriangle } from 'lucide-react';
-import { glass } from './ui';
+import { glass } from './UI';
 
 export default function FileUpload({ onFile, error }) {
   const [over, setOver] = useState(false);

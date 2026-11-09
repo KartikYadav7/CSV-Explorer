@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AlertTriangle, RotateCcw } from 'lucide-react';
-import { btnPrimary, glass } from './ui.js';
+import { btnPrimary, glass } from './UI.js';
 
 export default class ErrorBoundary extends Component {
   state = { error: null };
