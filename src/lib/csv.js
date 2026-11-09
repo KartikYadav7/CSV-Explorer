@@ -21,39 +21,32 @@ export const toNum = (v) => {
   return Number.isFinite(n) ? n : NaN;
 };
 
-const EMPTY_MSG = 'No rows found. Check that the file has a header row and at least one data row.';
-
-// Fallback if module workers are unavailable (very old browsers, strict CSP).
-const parseOnMainThread = (file) =>
+/**
+ * Parses a File in 1 MB chunks. Each chunk is read asynchronously, so the event loop gets a turn
+ * between chunks and the UI stays responsive. No Web Worker needed, which keeps the build
+ * independent of the bundler (PapaParse's `worker: true` breaks under Vite, and bundler-specific
+ * worker syntax has failed on some hosts).
+ */
+export const parseCsv = (file) =>
   new Promise((resolve, reject) => {
+    const rows = [];
+    let columns = [];
     Papa.parse(file, {
       header: true,
       skipEmptyLines: 'greedy',
-      complete: ({ data, meta }) => resolve({ columns: meta.fields ?? [], rows: data }),
-      error: (err) => reject(new Error(err.message)),
+      chunkSize: 1024 * 1024,
+      chunk: ({ data, meta }) => {
+        if (!columns.length && meta.fields) columns = meta.fields;
+        for (let i = 0; i < data.length; i++) rows.push(data[i]);
+      },
+      complete: () => {
+        if (!columns.length || !rows.length) {
+          reject(new Error('No rows found. Check that the file has a header row and at least one data row.'));
+        } else resolve({ columns, rows });
+      },
+      error: (err) => reject(new Error(`Couldn’t read the file: ${err.message}`)),
     });
   });
-
-const parseInWorker = (file) =>
-  new Promise((resolve, reject) => {
-    const worker = new Worker(new URL('./csvWorker.js', import.meta.url), { type: 'module' });
-    const finish = (fn, value) => { worker.terminate(); fn(value); };
-    worker.onmessage = ({ data }) => (data.error ? finish(reject, new Error(data.error)) : finish(resolve, data));
-    worker.onerror = (e) => finish(reject, new Error(e.message || 'Worker failed'));
-    worker.postMessage(file);
-  });
-
-export const parseCsv = async (file) => {
-  let result;
-  try {
-    result = await parseInWorker(file);
-  } catch {
-    try { result = await parseOnMainThread(file); }
-    catch (err) { throw new Error(`Couldn’t read the file: ${err.message}`); }
-  }
-  if (!result.columns.length || !result.rows.length) throw new Error(EMPTY_MSG);
-  return result;
-};
 
 /** A column is "number" when ≥90% of its non-empty sampled values parse as numbers. */
 export const inferTypes = (columns, rows) => {

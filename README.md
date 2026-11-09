@@ -6,7 +6,7 @@ Built with React, Vite, Tailwind CSS, PapaParse and lucide-react.
 
 ## Features
 
-- **Drag-and-drop ingestion.** Parsed with PapaParse in a web worker, so large files don't freeze the page. Skeleton loader while parsing, inline errors for non-CSV or empty files.
+- **Drag-and-drop ingestion.** Parsed with PapaParse in 1 MB chunks, so the page stays responsive on large files. Skeleton loader while parsing, inline errors for non-CSV or empty files.
 - **Multi-column filter builder.** Add as many rules as you like, each with a column, operator and value. Results update as you type.
   - Operators: Contains, Equals, Starts with, Greater than, Less than.
   - Operators adapt to the data: numeric columns offer Greater than, Less than and Equals; text columns offer Contains, Equals and Starts with.
